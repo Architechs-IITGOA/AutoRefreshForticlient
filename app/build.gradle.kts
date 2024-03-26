@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.iitgoapapaharpic.upfortfrgrnd"
+    namespace = "com.iitgoapapaharpic.fortinetconnect"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.iitgoapapaharpic.upfortfrgrnd"
+        applicationId = "com.iitgoapapaharpic.fortinetconnect"
         minSdk = 30
         targetSdk = 34
         versionCode = 1

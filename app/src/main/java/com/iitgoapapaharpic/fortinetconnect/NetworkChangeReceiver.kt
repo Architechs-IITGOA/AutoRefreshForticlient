@@ -1,4 +1,4 @@
-package com.iitgoapapaharpic.upfortfrgrnd
+package com.iitgoapapaharpic.fortinetconnect
 
 import android.content.BroadcastReceiver
 import android.content.Context

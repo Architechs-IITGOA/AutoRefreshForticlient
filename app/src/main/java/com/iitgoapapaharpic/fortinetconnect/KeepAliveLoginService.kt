@@ -1,4 +1,4 @@
-package com.iitgoapapaharpic.upfortfrgrnd
+package com.iitgoapapaharpic.fortinetconnect
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -13,8 +13,6 @@ import org.jsoup.Jsoup
 import java.util.*
 import android.app.PendingIntent
 import android.util.Log
-import android.widget.Toast
-import java.io.IOException
 
 class KeepAliveLoginService : Service() {
     private val client = OkHttpClient()

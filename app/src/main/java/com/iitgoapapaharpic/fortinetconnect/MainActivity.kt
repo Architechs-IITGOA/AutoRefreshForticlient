@@ -1,11 +1,11 @@
-package com.iitgoapapaharpic.upfortfrgrnd
+package com.iitgoapapaharpic.fortinetconnect
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.iitgoapapaharpic.upfortfrgrnd.databinding.ActivityMainBinding
+import com.iitgoapapaharpic.fortinetconnect.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "upFortFrgrnd"
+rootProject.name = "Fortinet connect"
 include(":app")
  
