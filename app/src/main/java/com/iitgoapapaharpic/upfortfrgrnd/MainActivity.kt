@@ -3,6 +3,7 @@ package com.iitgoapapaharpic.upfortfrgrnd
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.iitgoapapaharpic.upfortfrgrnd.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
@@ -17,14 +18,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.loginButton.setOnClickListener {
-            val username = binding.usernameEditText.text.toString()
-            val password = binding.passwordEditText.text.toString()
+        binding.addCredentials.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
 
-            if (username.isNotEmpty() && password.isNotEmpty()) {
+        binding.startServiceButton.setOnClickListener {
+            val sharedPreferences = SharedPreferences(applicationContext)
+            val credentials = sharedPreferences.getCredentials()
+
+            if (credentials != null) {
+                val (username, password) = credentials
+
                 launchLoginService(username, password)
-            } else {
-                Log.d("Empty","Username or Password is empty")
+            }else{
+                Toast.makeText(this, "Please Add credentials first.", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -53,7 +61,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun stopKeepAliveLoginService() {
         val serviceIntent = Intent(this, KeepAliveLoginService::class.java)
-
         stopService(serviceIntent)
+
+        Toast.makeText(this, "AutoConnect stopped.", Toast.LENGTH_LONG).show()
     }
 }

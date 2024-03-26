@@ -10,10 +10,11 @@ import android.os.IBinder
 import kotlinx.coroutines.*
 import okhttp3.*
 import org.jsoup.Jsoup
-import java.io.IOException
 import java.util.*
 import android.app.PendingIntent
 import android.util.Log
+import android.widget.Toast
+import java.io.IOException
 
 class KeepAliveLoginService : Service() {
     private val client = OkHttpClient()
@@ -46,56 +47,78 @@ class KeepAliveLoginService : Service() {
                 keepAliveJob?.cancel()
                 keepAliveJob = Timer()
                 keepAliveJob?.scheduleAtFixedRate(object : TimerTask() {
+
                     override fun run() {
                         CoroutineScope(Dispatchers.IO).launch {
-                            try {
-                                val magic = extractMagic()
-                                val loginResponse = login(magic, username, password)
-                                Log.d("loginResponse", loginResponse.message)
-                                // Yet to handle Failed Login Response -------------------
-                                val keepAliveUrl =
-                                    parseKeepAliveUrl(loginResponse.body?.string() ?: "")
+                            val magic = extractMagic()
 
-                                Log.d("URL", keepAliveUrl)
-                            } catch (e: Exception) {
-                                Log.d("Login Failed", e.message.toString())
+                            if(magic === null){
+                                stopSelf()
+                                keepAliveJob?.cancel()
+                                serviceScope.cancel()
+                            }else{
+                                val loginResponse = login(magic, username, password)
+
+                                if(loginResponse == null){
+                                    stopSelf()
+                                    keepAliveJob?.cancel()
+                                    serviceScope.cancel()
+                                }else{
+                                    val keepAliveUrl =
+                                        parseKeepAliveUrl(loginResponse.body?.string() ?: "")
+
+                                    Log.d("URL", keepAliveUrl)
+                                }
+
+
                             }
+
+
                         }
                     }
-                }, 0, 10 * 1000) // Set this to run every 2 hours (For Testing set to 10 seconds)
+                }, 0, 2 * 60 * 60 * 1000) // Set this to run every 2 hours (For Testing set to 10 seconds)
             }
         }
     }
 
-    private fun extractMagic(): String {
+    private fun extractMagic(): String? {
         val request = Request.Builder()
             .url(FORTI_LOGIN_URL)
             .build()
 
-        client.newCall(request).execute().use { response ->
-            if (response.isSuccessful) {
-                val html = response.body?.string()
-                return Jsoup.parse(html).select("input[name=magic]").attr("value")
-            } else {
-                throw IOException("Failed to extract magic token")
+        try {
+            client.newCall(request).execute().use { response ->
+                if (response.isSuccessful) {
+
+                    val html = response.body?.string()
+                    return Jsoup.parse(html).select("input[name=magic]").attr("value")
+                } else {
+                    return null
+                }
             }
+        }catch (e: Exception){
+            return null
         }
     }
 
-    private fun login(magic: String, username: String, password: String): Response {
+    private fun login(magic: String, username: String, password: String): Response? {
         val formBody = FormBody.Builder()
             .add("4Tredir", FORTI_LOGIN_URL)
             .add("magic", magic)
             .add("username", username)
             .add("password", password)
             .build()
-
+        
         val request = Request.Builder()
             .url(FORTI_LOGIN_URL)
             .post(formBody)
             .build()
 
-        return client.newCall(request).execute()
+        try {
+            return client.newCall(request).execute()
+        }catch (e: Exception){
+            return null
+        }
     }
 
     private fun parseKeepAliveUrl(html: String): String {
@@ -103,7 +126,7 @@ class KeepAliveLoginService : Service() {
             ?.substringAfter("window.location.replace('")
             ?.substringBefore("');")
 
-        return keepAliveUrl ?: throw IOException("Failed to parse keep-alive URL")
+        return keepAliveUrl ?: "Not found"
     }
 
     private fun createNotification(): Notification {
@@ -121,10 +144,10 @@ class KeepAliveLoginService : Service() {
         val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val notificationBuilder = Notification.Builder(this, channelId)
-            .setContentTitle("Auto Login Turned On")
-            .setContentText("Keep this notification to keep this service on")
+            .setContentTitle("AutoConnect Turned On")
+            .setContentText("You no more need relogin to Fortinet.")
             .setSmallIcon(R.drawable.ic_notification)
-            .addAction(R.drawable.ic_stop, "Stop", stopPendingIntent)
+            .addAction(R.drawable.ic_stop, "Stop AutoConnect", stopPendingIntent)
 
         return notificationBuilder.build()
     }

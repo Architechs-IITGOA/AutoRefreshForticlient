@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">upFortFrgrnd</string>
+    <string name="app_name">Fortinet connect</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -43,4 +43,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="we_value_your_privacy_these_credentials_will_remain_only_on_your_device">We value your privacy. These credentials will remain only on your device.</string>
+    <string name="save_credentials">Save credentials</string>
 </resources>
