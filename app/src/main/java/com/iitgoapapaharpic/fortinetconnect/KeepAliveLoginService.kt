@@ -12,7 +12,9 @@ import okhttp3.*
 import org.jsoup.Jsoup
 import java.util.*
 import android.app.PendingIntent
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 
 class KeepAliveLoginService : Service() {
     private val client = OkHttpClient()
@@ -64,14 +66,15 @@ class KeepAliveLoginService : Service() {
                                 }else{
                                     val keepAliveUrl =
                                         parseKeepAliveUrl(loginResponse.body?.string() ?: "")
+                                    Log.d("URL", keepAliveUrl.toString())
 
-                                    Log.d("URL", keepAliveUrl)
+                                    if(keepAliveUrl == null){
+                                        stopSelf()
+                                        keepAliveJob?.cancel()
+                                        serviceScope.cancel()
+                                    }
                                 }
-
-
                             }
-
-
                         }
                     }
                 }, 0, 2 * 60 * 60 * 1000) // Set this to run every 2 hours (For Testing set to 10 seconds)
@@ -119,12 +122,11 @@ class KeepAliveLoginService : Service() {
         }
     }
 
-    private fun parseKeepAliveUrl(html: String): String {
+    private fun parseKeepAliveUrl(html: String): String? {
         val keepAliveUrl = Jsoup.parse(html).select("script").firstOrNull()?.data()
-            ?.substringAfter("window.location.replace('")
-            ?.substringBefore("');")
+            ?.substringAfter("\"")?.substringBefore("\"")
 
-        return keepAliveUrl ?: "Not found"
+        return keepAliveUrl
     }
 
     private fun createNotification(): Notification {
