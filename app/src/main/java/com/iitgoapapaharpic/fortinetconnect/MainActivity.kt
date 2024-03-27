@@ -1,6 +1,9 @@
 package com.iitgoapapaharpic.fortinetconnect
 
+import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -9,6 +12,7 @@ import com.iitgoapapaharpic.fortinetconnect.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -19,8 +23,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.addCredentials.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            val sharedPreferences = SharedPreferences(applicationContext)
+            val credentials = sharedPreferences.getCredentials()
+
+            if (credentials != null) {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }else{
+                // For First Time Launch
+                val intent = Intent(this, AskPermissions::class.java)
+                startActivity(intent)
+            }
         }
 
         binding.startServiceButton.setOnClickListener {
@@ -39,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         binding.stopServiceButton.setOnClickListener {
             stopKeepAliveLoginService()
         }
+
     }
 
     private fun launchLoginService(username: String, password: String) {
@@ -65,4 +79,6 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this, "AutoConnect stopped.", Toast.LENGTH_LONG).show()
     }
+
+
 }
