@@ -14,7 +14,7 @@ import javax.crypto.spec.GCMParameterSpec
 
 class SharedPreferences(private val context: Context) {
     companion object {
-        private const val PREFERENCE_FILE_KEY = "shared_preferencs"
+        private const val PREFERENCE_FILE_KEY = "shared_preferencss"
         private const val ENCRYPTION_KEY_NAME = "encryption_key"
         private const val ENCRYPTION_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
     }

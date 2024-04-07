@@ -66,10 +66,11 @@ class KeepAliveLoginService : Service() {
                                 }else{
                                     val keepAliveUrl =
                                         parseKeepAliveUrl(loginResponse.body?.string() ?: "")
-                                    Log.d("URL", keepAliveUrl.toString())
+                                    Log.d("URLisHere", keepAliveUrl.toString())
 
                                     if(keepAliveUrl == null){
                                         stopSelf()
+
                                         keepAliveJob?.cancel()
                                         serviceScope.cancel()
                                     }
@@ -77,7 +78,9 @@ class KeepAliveLoginService : Service() {
                             }
                         }
                     }
-                }, 0, 2 * 60 * 60 * 1000) // Set this to run every 2 hours (For Testing set to 10 seconds)
+                }, 0,
+                    1000 * 60 * 60 * 2
+                ) // Set this to run every 2 hours (For Testing set to 30 seconds)
             }
         }
     }
