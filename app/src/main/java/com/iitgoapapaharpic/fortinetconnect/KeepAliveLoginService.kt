@@ -13,6 +13,8 @@ import org.jsoup.Jsoup
 import java.util.*
 import android.app.PendingIntent
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 
@@ -53,6 +55,7 @@ class KeepAliveLoginService : Service() {
                             val magic = extractMagic()
 
                             if(magic === null){
+                                showToast("Not connected to IIT Goa WiFi!")
                                 stopSelf()
                                 keepAliveJob?.cancel()
                                 serviceScope.cancel()
@@ -60,6 +63,7 @@ class KeepAliveLoginService : Service() {
                                 val loginResponse = login(magic, username, password)
 
                                 if(loginResponse == null){
+                                    showToast("Please Try again!")
                                     stopSelf()
                                     keepAliveJob?.cancel()
                                     serviceScope.cancel()
@@ -69,6 +73,7 @@ class KeepAliveLoginService : Service() {
                                     Log.d("URLisHere", keepAliveUrl.toString())
 
                                     if(keepAliveUrl == null){
+                                        showToast("Please enter correct credentials")
                                         stopSelf()
 
                                         keepAliveJob?.cancel()
@@ -82,6 +87,12 @@ class KeepAliveLoginService : Service() {
                     1000 * 60 * 60 * 2
                 ) // Set this to run every 2 hours (For Testing set to 30 seconds)
             }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Handler(Looper.getMainLooper()).post {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -112,7 +123,7 @@ class KeepAliveLoginService : Service() {
             .add("username", username)
             .add("password", password)
             .build()
-        
+
         val request = Request.Builder()
             .url(FORTI_LOGIN_URL)
             .post(formBody)
