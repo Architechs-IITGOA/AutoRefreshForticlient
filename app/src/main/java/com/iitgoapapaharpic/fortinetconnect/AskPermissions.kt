@@ -1,16 +1,18 @@
 package com.iitgoapapaharpic.fortinetconnect
 
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.os.PowerManager
+import android.provider.Settings
+import android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.iitgoapapaharpic.fortinetconnect.databinding.ActivityAskPermissionsBinding
-import com.iitgoapapaharpic.fortinetconnect.databinding.ActivityMainBinding
+
 
 class AskPermissions : AppCompatActivity() {
     private lateinit var binding: ActivityAskPermissionsBinding
@@ -19,12 +21,27 @@ class AskPermissions : AppCompatActivity() {
         binding = ActivityAskPermissionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.giveProtectedAppPermission.setOnClickListener {
+            requestIgnoreBatteryOptimizations()
+        }
+
         binding.giveAutostartPermission.setOnClickListener {
             give_autostart_permission()
         }
 
+
+
         binding.understood.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun requestIgnoreBatteryOptimizations() {
+        val powerManager = applicationContext.getSystemService(POWER_SERVICE) as PowerManager
+        if (!powerManager.isIgnoringBatteryOptimizations(applicationContext.packageName)) {
+            val intent = Intent(ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+            intent.data = Uri.parse("package:${applicationContext.packageName}")
             startActivity(intent)
         }
     }

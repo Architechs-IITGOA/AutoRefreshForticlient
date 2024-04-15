@@ -10,23 +10,91 @@ android:layout_height="match_parent">
         android:textSize="30sp"
         android:layout_marginTop="60dp"
         android:layout_marginLeft="25dp"/>
-
-
-    <Button
-        android:id="@+id/giveAutostartPermission"
+    <View
+        android:layout_width="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Give permission"
-        android:layout_width="250dp"
-        android:layout_height="80dp"/>
+        android:layout_height="2dp"
+        android:background="@color/gray" />
+
+    <LinearLayout
+        android:id="@+id/giveProtectedAppPermission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="35dp">
+
+        <TextView
+            android:id="@+id/protectedApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Protected app"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <TextView
+            android:id="@+id/protectedAppPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Select “No restrictions”."
+
+            android:textColor="@color/material_on_background_disabled"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray" />
+
+    <LinearLayout
+        android:id="@+id/giveAutostartPermission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="35dp" >
+
+        <TextView
+            android:id="@+id/autoStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Auto start"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <TextView
+            android:id="@+id/autoStartPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Toggle ON for Fortinet connect app."
+            android:textColor="@color/material_on_background_disabled"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/the_app_may_need_to_run_in_the_background_so_these_permissions_are_neccessary"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="50dp"
+        android:textAlignment="center"
+        android:textColor="@color/material_on_background_disabled"/>
 
     <Button
         android:id="@+id/understood"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:text="Understood"
+        android:text="Done"
         android:layout_width="250dp"
-        android:layout_height="80dp"
-        android:backgroundTint="@color/green"/>
+        android:layout_height="65dp"/>
 
 </LinearLayout>
