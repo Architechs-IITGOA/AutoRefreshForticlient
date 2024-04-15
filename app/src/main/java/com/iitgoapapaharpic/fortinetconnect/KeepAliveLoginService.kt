@@ -160,7 +160,7 @@ class KeepAliveLoginService : Service() {
         val notificationBuilder = Notification.Builder(this, channelId)
             .setContentTitle("AutoConnect Turned On")
             .setContentText("You no more need relogin to Fortinet.")
-            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .addAction(R.drawable.ic_stop, "Stop AutoConnect", stopPendingIntent)
 
         return notificationBuilder.build()
