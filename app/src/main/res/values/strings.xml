@@ -45,4 +45,5 @@
     </string>
     <string name="we_value_your_privacy_these_credentials_will_remain_only_on_your_device">We value your privacy. These credentials will remain only on your device.</string>
     <string name="save_credentials">Save credentials</string>
+    <string name="the_app_may_need_to_run_in_the_background_so_these_permissions_are_neccessary">The app may need to run in the background. So these permissions are neccessary.</string>
 </resources>
