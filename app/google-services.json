@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "695451768091",
+    "project_id": "fortinet-autorefresh",
+    "storage_bucket": "fortinet-autorefresh.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695451768091:android:30210014195c78198f6fbe",
+        "android_client_info": {
+          "package_name": "com.iitgoapapaharpic.fortinetconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgNUd-5DTa8sMUHvkReRF2f447UHVflgQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

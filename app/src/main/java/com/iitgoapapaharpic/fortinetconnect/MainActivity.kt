@@ -6,8 +6,11 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.iitgoapapaharpic.fortinetconnect.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,12 +18,43 @@ import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
+
+
+
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//        val crashButton = Button(this)
+//        crashButton.text = "Test Crash"
+//        crashButton.setOnClickListener {
+//            throw RuntimeException("Test Crash") // Force a crash
+//        }
+//
+//        addContentView(crashButton, ViewGroup.LayoutParams(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT))
+
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
+
+
+//        binding.crash.setOnClickListener {
+//            throw RuntimeException("Test Crash") // Force a crash
+//        }
+//
+//
+//        addContentView(binding.crash, ViewGroup.LayoutParams(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT))
+
+
 
         binding.addCredentials.setOnClickListener {
             val sharedPreferences = SharedPreferences(applicationContext)
@@ -58,6 +92,7 @@ class MainActivity : AppCompatActivity() {
     private fun launchLoginService(username: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
+                Log.d("Daddy", "launch login service")
                 startKeepAliveLoginService(username, password)
             } catch (e: Exception) {
                 Log.e("launchLoginService", "Error: ${e.message}")
@@ -69,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent = Intent(this, KeepAliveLoginService::class.java)
         serviceIntent.putExtra("username", username)
         serviceIntent.putExtra("password", password)
-
+        Log.d("Daddy", "KeepAliveLoginService")
         startService(serviceIntent)
     }
 
