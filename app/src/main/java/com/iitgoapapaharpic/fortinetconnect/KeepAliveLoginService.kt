@@ -34,8 +34,13 @@ class KeepAliveLoginService : Service() {
             return START_NOT_STICKY
         }
 
+        Log.d("Daddy", "in start command")
+
         val username = intent?.getStringExtra("username") ?: ""
         val password = intent?.getStringExtra("password") ?: ""
+
+        Log.d("Daddy", username)
+        Log.d("Daddy", password)
 
         startForeground(NOTIFICATION_ID, createNotification())
         loginAndStartKeepAlive(username, password)
@@ -51,9 +56,12 @@ class KeepAliveLoginService : Service() {
                 keepAliveJob?.scheduleAtFixedRate(object : TimerTask() {
 
                     override fun run() {
+                        Log.d("Daddy", "in run")
                         CoroutineScope(Dispatchers.IO).launch {
                             val magic = extractMagic()
 
+                            Log.d("Daddy", "after magic")
+                            Log.d("Daddy", magic.toString())
                             if(magic === null){
                                 showToast("Not connected to IIT Goa WiFi!")
                                 stopSelf()
@@ -61,6 +69,8 @@ class KeepAliveLoginService : Service() {
                                 serviceScope.cancel()
                             }else{
                                 val loginResponse = login(magic, username, password)
+
+                                Log.d("Daddy", "login resp")
 
                                 if(loginResponse == null){
                                     showToast("Please Try again!")
@@ -71,6 +81,9 @@ class KeepAliveLoginService : Service() {
                                     val keepAliveUrl =
                                         parseKeepAliveUrl(loginResponse.body?.string() ?: "")
                                     Log.d("URLisHere", keepAliveUrl.toString())
+                                    Log.d("Daddy", keepAliveUrl.toString())
+
+                                    Log.d("Daddy", "daddy ka url")
 
                                     if(keepAliveUrl == null){
                                         showToast("Please enter correct credentials")
@@ -147,9 +160,12 @@ class KeepAliveLoginService : Service() {
         val channelId = "KeepAliveLoginServiceChannel"
         val channelName = "Keep Alive Login Service"
 
+        Log.d("Daddy", "in create notif")
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
             val manager = getSystemService(NotificationManager::class.java)
+            Log.d("Daddy", "in sdk > O")
             manager.createNotificationChannel(channel)
         }
 
@@ -157,12 +173,15 @@ class KeepAliveLoginService : Service() {
         stopIntent.action = "stop_service"
         val stopPendingIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_IMMUTABLE)
 
+        Log.d("Daddy", "b4 notification builder")
+
         val notificationBuilder = Notification.Builder(this, channelId)
             .setContentTitle("AutoConnect Turned On")
             .setContentText("You no more need relogin to Fortinet.")
             .setSmallIcon(R.mipmap.ic_launcher)
             .addAction(R.drawable.ic_stop, "Stop AutoConnect", stopPendingIntent)
 
+        Log.d("Daddy", notificationBuilder.toString())
         return notificationBuilder.build()
     }
 

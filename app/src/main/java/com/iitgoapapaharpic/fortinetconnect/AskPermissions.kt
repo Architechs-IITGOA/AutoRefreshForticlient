@@ -11,12 +11,14 @@ import android.os.PowerManager
 import android.provider.Settings
 import android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.iitgoapapaharpic.fortinetconnect.databinding.ActivityAskPermissionsBinding
 
 
 class AskPermissions : AppCompatActivity() {
     private lateinit var binding: ActivityAskPermissionsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         binding = ActivityAskPermissionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
