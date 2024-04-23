@@ -6,6 +6,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="harpic_link"><a href="https://www.linkedin.com/in/pranav-todkar/">HarPic</a></string>
+    <string name="papa_link"><a href="https://www.linkedin.com/in/harshvardhangupta07/">PaPa</a></string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

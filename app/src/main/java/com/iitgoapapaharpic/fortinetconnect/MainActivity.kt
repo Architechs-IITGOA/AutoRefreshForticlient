@@ -3,11 +3,13 @@ package com.iitgoapapaharpic.fortinetconnect
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -40,8 +42,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.harpicTextView.setOnClickListener {
+            val harpicUrl = "https://www.linkedin.com/in/pranav-todkar/"
+            val harpicIntent = Intent(Intent.ACTION_VIEW, Uri.parse(harpicUrl))
+            startActivity(harpicIntent)
+        }
 
-
+        binding.papaTextView.setOnClickListener {
+            val papaUrl = "https://www.linkedin.com/in/harshvardhangupta07/"
+            val papaIntent = Intent(Intent.ACTION_VIEW, Uri.parse(papaUrl))
+            startActivity(papaIntent)
+        }
 
 
 
